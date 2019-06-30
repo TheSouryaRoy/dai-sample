@@ -69,7 +69,7 @@ function onStreamEvent(e) {
   switch (e.type) {
     case google.ima.dai.api.StreamEvent.Type.LOADED:
       console.log('Stream loaded');
-      loadUrlNoPlay(e.getStreamData().url); //loadUrl instructs HLS player to load
+      loadUrl(e.getStreamData().url); //load video but don't auto play
       break;
     case google.ima.dai.api.StreamEvent.Type.ERROR:
       console.log('Error loading stream, playing backup stream.' + e);
@@ -97,7 +97,8 @@ function playVideo() {
 }
 
 // Load video without playing
-function loadUrlNoPlay(url) {
+// supports browsers that don't allow auto play
+function loadUrl(url) {
   console.log('Loading:' + url);
   hls.loadSource(url);
   hls.attachMedia(videoElement);
@@ -106,17 +107,5 @@ function loadUrlNoPlay(url) {
     var play_button = document.getElementById("play-button");
     play_button.style.visibility = "visible";
 
-  });
-}
-
-
-// Load videos to HLS video player
-function loadUrl(url) {
-  console.log('Loading:' + url);
-  hls.loadSource(url);
-  hls.attachMedia(videoElement);
-  hls.on(Hls.Events.MANIFEST_PARSED, function() {
-    console.log('Video Play');
-    videoElement.play();
   });
 }
